@@ -1,13 +1,9 @@
 import random
 
-file = open('слова.txt', 'r', encoding='utf-8')  # Этот файл состоит из 1000 самых частотных существительных русского языка. Строка выглядит как номер слова и само слово, разделенные табуляцией.
+file = open('wordle.txt', 'r', encoding='utf-8') 
 words = []
-for i in file:
-    i = i.rstrip()
-    num, word = i.split('\t')
-    if len(word) == 5:
-        words.append(word)
-print(words)
+for i in file.readlines():
+    words.append(i)
 file.close()
 
 availible = set('ёйцукенгшщзхъфывапролджэячсмитьбю')  # Множество доступных букв, которые есть в словах или же еще не проверялись игроком. Я пока не сделала проверку, принадлежит ли каждая буква вводимого слова этому множеству.
