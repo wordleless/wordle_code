@@ -3,7 +3,7 @@ import random
 file = open('wordle.txt', 'r', encoding='utf-8') 
 words = []
 for i in file.readlines():
-    words.append(i)
+    words.append(i.rstrip())
 file.close()
 
 availible = set('ёйцукенгшщзхъфывапролджэячсмитьбю')  # Множество доступных букв, которые есть в словах или же еще не проверялись игроком. Я пока не сделала проверку, принадлежит ли каждая буква вводимого слова этому множеству.
