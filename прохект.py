@@ -5,17 +5,22 @@ words = []
 for i in file.readlines():
     words.append(i.rstrip())
 file.close()
-print(words)
 
 availible = set('ёйцукенгшщзхъфывапролджэячсмитьбю')  # Множество доступных букв, которые есть в словах или же еще не проверялись игроком. Я пока не сделала проверку, принадлежит ли каждая буква вводимого слова этому множеству.
 in_place = [['_' for i in range(5)] for j in range(3)]  # Список списков букв для каждого из 3 слов, для которых известно место в слове (если неизвестно, на месте буквы стоит _)
 in_word = [set() for i in range(3)]  # Список множеств букв для каждого из 3 слов, для которых известно, что оно есть в слове.
 
-if input('Начнем игру? ') == "Да":
+if input('Начнем игру? ') in ["Да", 'да', 'ДА']:
     win = False
     sam = random.sample(words, 3)  # Список с загаданными словами
     sam_lett = set(''.join(sam))  # Множество всех букв, которые есть в загаданных словах
-    sam_lett_list = [set(i) for i in sam]  # Список со множествами букв в каждом конкретном множестве
+    sam_lett_list = [{} for i in range(3)]  # Список со словарем для каждого загаданного слова, где ключ - буква, а значение - количество раз, которое буква встретилась в слове
+    for i in range(3):
+        for j in range(5):
+            if sam[i][j] in sam_lett_list[i]:
+                sam_lett_list[i][sam[i][j]] += 1
+            else:
+                sam_lett_list[i][sam[i][j]] = 1
     guessed = set()  # Множество индексов отгаданных слов
     
     print('Мы загадали 3 пятибуквенных слова! У вас есть 10 попыток, чтобы отгадать все 3 слова. За каждый ход вы можете ввести лишь одно существующее пятибуквенное слово, а мы покажем, какие буквы вы угадали, для каждого из трех слов. Если буква есть в слове, но стоит не на своем месте, оно будет обозначена нижним регистром, если на своем месте, то верхним регистром. Если введенной буквы в слове нет, на месте этой буквы будет прочерк. Также после каждого вашего хода вам будут выводиться доступные буквы алфавита, а также для каждого из 3 слов списки угаданных букв, которые есть в слове и которые стоят на своих местах.')
@@ -41,38 +46,45 @@ if input('Начнем игру? ') == "Да":
                     if att[j] in sam_lett_list[k]:
                         if att[j] == sam[k][j]:
                             in_place[k][j] = att[j].upper()
-                            out[k][j] = att[j].upper()
                             in_word[k].add(att[j])
                         else:
                             in_word[k].add(att[j])
+        for j in range(5):  # В этом цикле формируем вывод для каждого слова
+            if att[j] in availible and att[j] in sam_lett:
+                for k in range(3):
+                    if att[j] in in_word[k]:
+                        if att[j] == sam[k][j]:
+                            out[k][j] = att[j].upper()
+                        elif sam_lett_list[k][att[j]] == 1 and att[j] not in att[:j] and att[j].upper() not in in_place[k] or att.count(att[j]) >= in_place.count(att[j].upper()) and sam_lett_list[k][att[j]] >= att.count(att[j], 0, j + 1):
                             out[k][j] = att[j]
                             
-        for i in range(3):
-            if i not in guessed:
-                print(f"Cлово {i + 1}: {''.join(out[i])}")  # Выводим наши метаслова
+                            
+        for k in range(3):
+            if k not in guessed:
+                print(f"Cлово {k + 1}: {''.join(out[k])}")  # Выводим наши метаслова
                 
         print('\n')
         print('Доступные буквы:', ' '.join(list(availible)))
         print('\n')
         
-        for i in range(3):
-            if i not in guessed:
-                wrd = ' '.join(list(in_word[i]))  # Переменная для красивого вывода in_word
+        for k in range(3):
+            if k not in guessed:
+                wrd = ' '.join(list(in_word[k]))  # Переменная для красивого вывода in_word
                 if wrd == '':
-                    print('В слове', i + 1, 'нет угаданных букв.')
+                    print('В слове', k + 1, 'нет угаданных букв.')
                 else:
-                    print(f'Угаданные буквы в слове {i + 1}: {wrd}')
-                plc = ''.join(list(in_place[i]))  # Переменная для красивого вывода in_place
+                    print(f'Угаданные буквы в слове {k + 1}: {wrd}')
+                plc = ''.join(list(in_place[k]))  # Переменная для красивого вывода in_place
                 if plc == '':
-                    print('В слове', i + 1, 'нет букв с угаданным местом.')
+                    print('В слове', k + 1, 'нет букв с угаданным местом.')
                 else:
-                    print(f'Угаданные места букв в слове {i + 1}: {plc}')
+                    print(f'Угаданные места букв в слове {k + 1}: {plc}')
                 print('\n')
-        for i in range(3):  # Цикл, в котором проверяем, угадал ли человек хоть одно слово
-            if ''.join(out[i]).lower() == sam[i]:
-                guessed.add(i)
+        for k in range(3):  # Цикл, в котором проверяем, угадал ли человек хоть одно слово
+            if ''.join(out[k]).lower() == sam[k]:
+                guessed.add(k)
                 if len(guessed) < 3:
-                    print(f"Поздравляю, вы угадали {i + 1}-е слово! Вам осталось {3 - len(guessed)} {'слово' if 3 - len(guessed) == 1 else 'слова'}")
+                    print(f"Поздравляю, вы угадали {k + 1}-е слово! Вам осталось {3 - len(guessed)} {'слово' if 3 - len(guessed) == 1 else 'слова'}")
         if len(guessed) == 3:  # Проверка на победу
             win = True
             print('Ура, вы угадали все слова! С победой!')
