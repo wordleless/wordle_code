@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+<head>
+<title> Wordle </title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Wordle">
+<nav id="mainNav" class="navbar navbar-default navbar-fixed-top navbar-custom">
+<div class="container"> </div>
+<header style="background-color:#FFF333; padding-top:1px; "> 
+
+<div class="container"> </div>
+<div class="row"> </div>
+<div class="col-md-2"> </div>
+<br><br>
+<h1><center>Wordle</center></h1>
+<hr> 
+</header>
+<body>
+<style type="text/css">
+   .block1 { 
+    width: 200px; 
+    background: #ccc;
+    padding: 5px;
+    padding-right: 20px; 
+    border: solid 1px black; 
+    float: left;
+   }
+   .block2 { 
+    width: 200px; 
+    background: #fc0; 
+    padding: 5px; 
+    border: solid 1px black; 
+    float: left; 
+    position: relative; 
+    top: 40px; 
+    left: -70px; 
+   }
+  </style> 
+
+  <div class="block1"><li> <a href="https://www.youtube.com/watch?v=2mBKMA4-AsU">Подробнее об игре</a> </li></div>
+  <div class="block2">Wordle - игра, где выбирается слово из пяти букв. Задача игрока - угадать это слово за шесть попыток.  После каждого предположения буквы отмечаются зелёным, жёлтым или серым цветом; зелёный означает, что буква правильная и находится в правильном месте, жёлтый означает, что буква есть в ответе, но на другой позиции, а серый означает, что буквы в загаданном слове нет вообще.</div> 
+
+ </body>
+</html>
