@@ -36,7 +36,7 @@ function intialize() {
     }
     )
     document.addEventListener("keydown", (e) => { 
-        if (e.key == "Backspace") { //я ещё не смогла норм подключить бэкспейс но всё будет
+        if (e.key == "Backspace") { 
             if (0 < col && col <= width) {
                 col -=1;
             }
